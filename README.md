@@ -21,7 +21,7 @@ The goal of this assignment is to:
 * One-command startup with Docker Compose.
 
 ## 🏗️ Project Structure
-
+```
 DevOps-Assignment/
 ├── backend/
 │   ├── app/
@@ -35,7 +35,8 @@ DevOps-Assignment/
 │   ├── .env.production          # Environment variables for production build
 │   └── Dockerfile               # Dockerfile for the Next.js frontend
 ├── docker-compose.yml           # Docker Compose configuration for both services
-└── README.md                    # Project documentation
+└── README.md                    # Project documentation 
+```
 
 ## 🌐 Application Overview
 
@@ -73,7 +74,7 @@ async def health_check():
 async def get_message():
     return {"message": "You've successfully integrated the backend!"}
 
-- Frontend (Next.js)
+## Frontend (Next.js)
 
  The frontend is a Next.js application responsible for displaying the status of the backend connection and the message retrieved from the /api/message endpoint. It fetches data from the backend using the configured API URL.
 
@@ -129,7 +130,7 @@ export default function Home() {
   COPY app/ ./app
   CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
-- Frontend Dockerfile (frontend/Dockerfile)
+## Frontend Dockerfile (frontend/Dockerfile)
 
   FROM node:18-alpine AS deps
   WORKDIR /app
@@ -156,7 +157,7 @@ CMD ["npm", "start"]
 
 1. Docker Compose Logs
 Demonstrates the build and startup logs when running docker compose up, showing both backend and frontend services starting 
-![Docker Compose Logs](screenshot/Screenshot From 2025-07-04 07-24-19.png)
+![Docker Compose Logs](screenshot/Screenshot From 2025-07-04 07-26-24.png)
 
 2. Running Containers Status
 Output of docker ps, confirming both backend (pgagi-backend) and frontend (pgagi-frontend) containers are up and running, along with their exposed ports
