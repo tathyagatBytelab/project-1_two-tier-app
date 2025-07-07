@@ -1,0 +1,28 @@
+# Node.js
+node_modules/
+.env
+.env.production
+.env.development
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.next/ # For Next.js build output
+out/ # For Next.js static export output (if used)
+
+# Python
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Terraform (if you start adding it later)
+.terraform/
+*.tfplan
+*.tfstate
+*.tfstate.backup
+.terraform.lock.hcl
