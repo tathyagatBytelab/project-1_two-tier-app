@@ -2,43 +2,47 @@ name: Backend CI/CD
 
 on:
   push:
-    branches: [ develop ]
+    branches:
+      - develop
 
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      working-directory: ./backend
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies (starlette first)
+        working-directory: ./backend
+        run: |
+          python -m pip install --upgrade pip
+          pip install starlette==0.37.2
+          pip install -r requirements.txt
 
-    - name: Run backend tests
-      working-directory: ./backend
-      run: |
-        pytest tests/
+      - name: Run backend tests
+        working-directory: ./backend
+        run: |
+          export PYTHONPATH=$(pwd):$PYTHONPATH
+          python -m pytest tests/
 
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-    - name: Log in to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v1
+      - name: Log in to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
 
-    - name: Build and push Docker image
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: pgagi-backend
-        IMAGE_TAG: ${{ github.sha }}
-      run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./backend
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Build and push Docker image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+          ECR_REPO: ${{ secrets.ECR_BACKEND_REPO }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPO:latest .
+          docker push $ECR_REGISTRY/$ECR_REPO:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPO:latest
