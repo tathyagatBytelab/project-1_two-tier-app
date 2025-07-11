@@ -10,9 +10,6 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# ✅ Pass env file into build
-COPY .env.production .env.production
-
 RUN npm run build
 
 # Serve the app with Next.js built-in server
@@ -23,6 +20,8 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
 EXPOSE 3000
 CMD ["npm", "start"]
+
 
