@@ -9,15 +9,15 @@ resource "aws_vpc" "main" {
 }
 
 resource "aws_subnet" "subnet_1" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = "ap-south-1a"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone       = "ap-south-1a"
 }
 
 resource "aws_subnet" "subnet_2" {
-  vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.2.0/24"
-  availability_zone = "ap-south-1b"
+  vpc_id                  = aws_vpc.main.id
+  cidr_block              = "10.0.2.0/24"
+  availability_zone       = "ap-south-1b"
 }
 
 resource "aws_internet_gateway" "gw" {
@@ -25,8 +25,8 @@ resource "aws_internet_gateway" "gw" {
 }
 
 resource "aws_security_group" "alb_sg" {
-  name        = "alb_sg"
-  description = "Allow HTTP inbound traffic"
+  name        = "alb-sg"
+  description = "Allow HTTP"
   vpc_id      = aws_vpc.main.id
 
   ingress {
@@ -45,14 +45,14 @@ resource "aws_security_group" "alb_sg" {
 }
 
 resource "aws_security_group" "ecs_sg" {
-  name        = "ecs_sg"
-  description = "Allow traffic from ALB"
+  name        = "ecs-sg"
+  description = "Allow ECS access"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    from_port       = 8000
-    to_port         = 8000
-    protocol        = "tcp"
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
   }
 
@@ -72,21 +72,12 @@ resource "aws_lb" "alb" {
   subnets            = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
 }
 
-resource "aws_lb_target_group" "tg" {
-  name        = "pgagi-tg"
-  port        = 8000
+resource "aws_lb_target_group" "frontend_tg" {
+  name        = "pgagi-frontend-tg"
+  port        = 3000
   protocol    = "HTTP"
-  target_type = "ip"
   vpc_id      = aws_vpc.main.id
-
-  health_check {
-    path                = "/api/health"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
-    matcher             = "200"
-  }
+  target_type = "ip"
 }
 
 resource "aws_lb_listener" "listener" {
@@ -96,7 +87,7 @@ resource "aws_lb_listener" "listener" {
 
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.tg.arn
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
   }
 }
 
@@ -104,22 +95,17 @@ resource "aws_ecs_cluster" "pgagi" {
   name = "pgagi-cluster"
 }
 
-resource "aws_cloudwatch_log_group" "ecs_logs" {
-  name              = "/ecs/pgagi-backend-task"
-  retention_in_days = 7
-}
-
 resource "aws_iam_role" "ecs_task_execution_role" {
   name = "ecsTaskExecutionRole"
 
   assume_role_policy = jsonencode({
-    Version = "2012-10-17"
+    Version = "2012-10-17",
     Statement = [{
-      Action = "sts:AssumeRole"
+      Action    = "sts:AssumeRole",
+      Effect    = "Allow",
       Principal = {
         Service = "ecs-tasks.amazonaws.com"
       }
-      Effect = "Allow"
     }]
   })
 }
@@ -129,8 +115,8 @@ resource "aws_iam_role_policy_attachment" "ecs_execution_policy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_ecs_task_definition" "backend_task" {
-  family                   = "pgagi-backend-task"
+resource "aws_ecs_task_definition" "frontend_task" {
+  family                   = "pgagi-frontend-task"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "256"
@@ -140,31 +126,23 @@ resource "aws_ecs_task_definition" "backend_task" {
 
   container_definitions = jsonencode([
     {
-      name      = "pgagi-backend"
-      image     = "011528284123.dkr.ecr.ap-south-1.amazonaws.com/pgagi-backend:latest"
-      essential = true
+      name  = "pgagi-frontend",
+      image = "011528284123.dkr.ecr.ap-south-1.amazonaws.com/pgagi-frontend:latest",
       portMappings = [{
-        containerPort = 8000
-        protocol      = "tcp"
-      }]
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          awslogs-group         = aws_cloudwatch_log_group.ecs_logs.name
-          awslogs-region        = "ap-south-1"
-          awslogs-stream-prefix = "ecs"
-        }
-      }
+        containerPort = 3000,
+        hostPort      = 3000
+      }],
+      essential = true
     }
   ])
 }
 
-resource "aws_ecs_service" "pgagi_service" {
-  name            = "pgagi-service"
+resource "aws_ecs_service" "pgagi_frontend_service" {
+  name            = "pgagi-frontend-service"
   cluster         = aws_ecs_cluster.pgagi.id
-  task_definition = aws_ecs_task_definition.backend_task.arn
-  desired_count   = 1
+  task_definition = aws_ecs_task_definition.frontend_task.arn
   launch_type     = "FARGATE"
+  desired_count   = 1
 
   network_configuration {
     subnets         = [aws_subnet.subnet_1.id, aws_subnet.subnet_2.id]
@@ -173,10 +151,12 @@ resource "aws_ecs_service" "pgagi_service" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.tg.arn
-    container_name   = "pgagi-backend"
-    container_port   = 8000
+    target_group_arn = aws_lb_target_group.frontend_tg.arn
+    container_name   = "pgagi-frontend"
+    container_port   = 3000
   }
 
-  depends_on = [aws_lb_listener.listener]
+  depends_on = [
+    aws_lb_listener.listener
+  ]
 }
