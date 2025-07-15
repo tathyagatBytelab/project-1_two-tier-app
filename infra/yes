@@ -1,0 +1,88 @@
+{
+    "service": {
+        "serviceArn": "arn:aws:ecs:ap-south-1:011528284123:service/pgagi-cluster/pgagi-service",
+        "serviceName": "pgagi-service",
+        "clusterArn": "arn:aws:ecs:ap-south-1:011528284123:cluster/pgagi-cluster",
+        "loadBalancers": [
+            {
+                "targetGroupArn": "arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720",
+                "containerName": "pgagi-backend",
+                "containerPort": 80
+            }
+        ],
+        "serviceRegistries": [],
+        "status": "INACTIVE",
+        "desiredCount": 0,
+        "runningCount": 0,
+        "pendingCount": 0,
+        "launchType": "FARGATE",
+        "platformVersion": "LATEST",
+        "platformFamily": "Linux",
+        "taskDefinition": "arn:aws:ecs:ap-south-1:011528284123:task-definition/pgagi-backend-task:3",
+        "deploymentConfiguration": {
+            "deploymentCircuitBreaker": {
+                "enable": false,
+                "rollback": false
+            },
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100
+        },
+        "deployments": [
+            {
+                "id": "ecs-svc/4727287784047456882",
+                "status": "PRIMARY",
+                "taskDefinition": "arn:aws:ecs:ap-south-1:011528284123:task-definition/pgagi-backend-task:3",
+                "desiredCount": 0,
+                "pendingCount": 0,
+                "runningCount": 0,
+                "failedTasks": 0,
+                "createdAt": "2025-07-11T23:56:29.783000+05:30",
+                "updatedAt": "2025-07-12T00:30:43.695000+05:30",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-0c1fee00c06d3791e",
+                            "subnet-0fd8b6acd3b9194e3"
+                        ],
+                        "securityGroups": [
+                            "sg-0f3af374b50bc6d67"
+                        ],
+                        "assignPublicIp": "ENABLED"
+                    }
+                },
+                "rolloutState": "COMPLETED",
+                "rolloutStateReason": "ECS deployment ecs-svc/4727287784047456882 completed."
+            }
+        ],
+        "roleArn": "arn:aws:iam::011528284123:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+        "events": [],
+        "createdAt": "2025-07-11T23:56:29.783000+05:30",
+        "placementConstraints": [],
+        "placementStrategy": [],
+        "networkConfiguration": {
+            "awsvpcConfiguration": {
+                "subnets": [
+                    "subnet-0c1fee00c06d3791e",
+                    "subnet-0fd8b6acd3b9194e3"
+                ],
+                "securityGroups": [
+                    "sg-0f3af374b50bc6d67"
+                ],
+                "assignPublicIp": "ENABLED"
+            }
+        },
+        "healthCheckGracePeriodSeconds": 0,
+        "schedulingStrategy": "REPLICA",
+        "deploymentController": {
+            "type": "ECS"
+        },
+        "createdBy": "arn:aws:iam::011528284123:root",
+        "enableECSManagedTags": false,
+        "propagateTags": "NONE",
+        "enableExecuteCommand": false,
+        "availabilityZoneRebalancing": "DISABLED"
+    }
+}

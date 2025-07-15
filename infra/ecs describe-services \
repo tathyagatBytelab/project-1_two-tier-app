@@ -1,0 +1,219 @@
+{
+    "service": {
+        "serviceArn": "arn:aws:ecs:ap-south-1:011528284123:service/pgagi-cluster/pgagi-service",
+        "serviceName": "pgagi-service",
+        "clusterArn": "arn:aws:ecs:ap-south-1:011528284123:cluster/pgagi-cluster",
+        "loadBalancers": [
+            {
+                "targetGroupArn": "arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720",
+                "containerName": "pgagi-backend",
+                "containerPort": 80
+            }
+        ],
+        "serviceRegistries": [],
+        "status": "DRAINING",
+        "desiredCount": 0,
+        "runningCount": 1,
+        "pendingCount": 0,
+        "launchType": "FARGATE",
+        "platformVersion": "LATEST",
+        "platformFamily": "Linux",
+        "taskDefinition": "arn:aws:ecs:ap-south-1:011528284123:task-definition/pgagi-backend-task:3",
+        "deploymentConfiguration": {
+            "deploymentCircuitBreaker": {
+                "enable": false,
+                "rollback": false
+            },
+            "maximumPercent": 200,
+            "minimumHealthyPercent": 100
+        },
+        "deployments": [
+            {
+                "id": "ecs-svc/4727287784047456882",
+                "status": "PRIMARY",
+                "taskDefinition": "arn:aws:ecs:ap-south-1:011528284123:task-definition/pgagi-backend-task:3",
+                "desiredCount": 0,
+                "pendingCount": 0,
+                "runningCount": 1,
+                "failedTasks": 3,
+                "createdAt": "2025-07-11T23:56:29.783000+05:30",
+                "updatedAt": "2025-07-11T23:57:10.138000+05:30",
+                "launchType": "FARGATE",
+                "platformVersion": "1.4.0",
+                "platformFamily": "Linux",
+                "networkConfiguration": {
+                    "awsvpcConfiguration": {
+                        "subnets": [
+                            "subnet-0c1fee00c06d3791e",
+                            "subnet-0fd8b6acd3b9194e3"
+                        ],
+                        "securityGroups": [
+                            "sg-0f3af374b50bc6d67"
+                        ],
+                        "assignPublicIp": "ENABLED"
+                    }
+                },
+                "rolloutState": "IN_PROGRESS",
+                "rolloutStateReason": "ECS deployment ecs-svc/4727287784047456882 in progress."
+            }
+        ],
+        "roleArn": "arn:aws:iam::011528284123:role/aws-service-role/ecs.amazonaws.com/AWSServiceRoleForECS",
+        "events": [
+            {
+                "id": "1a41ecbd-c22b-4274-92d2-8e4517927ce0",
+                "createdAt": "2025-07-12T00:26:19.604000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task eaac0978a586442c81c58e03778159bc). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "5066a34d-3144-4641-a43f-73c90aa708ec",
+                "createdAt": "2025-07-12T00:22:35.162000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task b53f5945019a48629c6ef425d40a3e1b). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "92a26889-9e0d-4fc8-9370-24a56a822564",
+                "createdAt": "2025-07-12T00:18:53.586000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task a6df7242d0e040a192dabf4d6da66613). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "e91bc085-b32f-463e-ae1f-40bcf53165fe",
+                "createdAt": "2025-07-12T00:13:05.460000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "092f38c0-e919-4844-be76-8489d92e9016",
+                "createdAt": "2025-07-12T00:13:05.402000+05:30",
+                "message": "(service pgagi-service, taskSet ecs-svc/4727287784047456882) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "e5c95225-8cbb-4e85-8bfb-619b88524e66",
+                "createdAt": "2025-07-12T00:13:05.398000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "0451a9ae-20a3-4791-ae1b-58d5c72f23a4",
+                "createdAt": "2025-07-12T00:12:54.856000+05:30",
+                "message": "(service pgagi-service) has stopped 1 running tasks: (task b4a30010e7b745d59aa4309d7ad557cd)."
+            },
+            {
+                "id": "2e66d060-b571-4d75-b095-0cecd8894162",
+                "createdAt": "2025-07-12T00:12:54.828000+05:30",
+                "message": "(service pgagi-service) (task b4a30010e7b745d59aa4309d7ad557cd) (port 80) is unhealthy in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720) due to (reason Health checks failed)."
+            },
+            {
+                "id": "052ec326-f74a-4d56-88a1-4d8ef7478ced",
+                "createdAt": "2025-07-12T00:12:13.152000+05:30",
+                "message": "(service pgagi-service) registered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "17072bf7-596e-4a0a-90b2-bea6eacbd39d",
+                "createdAt": "2025-07-12T00:11:41.863000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task f2a2a14732e44f468c013b5626770703). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "39456517-4216-48a1-a252-66eb2357dc28",
+                "createdAt": "2025-07-12T00:06:04.212000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "f1c3481d-aff4-44fb-bb25-3e10b987459b",
+                "createdAt": "2025-07-12T00:06:04.152000+05:30",
+                "message": "(service pgagi-service, taskSet ecs-svc/4727287784047456882) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "fad6c3d0-1313-46a6-b527-eacf87ec1932",
+                "createdAt": "2025-07-12T00:06:04.148000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "76b27693-7230-469a-a93a-e46fd33e2384",
+                "createdAt": "2025-07-12T00:05:53.619000+05:30",
+                "message": "(service pgagi-service) has stopped 1 running tasks: (task 5f3a0495d1364324917cad7afa05eb60)."
+            },
+            {
+                "id": "60f6d08c-f4c5-4844-a982-6845978af22e",
+                "createdAt": "2025-07-12T00:05:53.582000+05:30",
+                "message": "(service pgagi-service) (task 5f3a0495d1364324917cad7afa05eb60) (port 80) is unhealthy in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720) due to (reason Health checks failed)."
+            },
+            {
+                "id": "2cb0dd19-03a5-4052-ba25-72f86d62bd91",
+                "createdAt": "2025-07-12T00:05:11.705000+05:30",
+                "message": "(service pgagi-service) registered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "d3259770-eb9a-4333-bfd7-d39d80d2646d",
+                "createdAt": "2025-07-12T00:04:50.487000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task b4a30010e7b745d59aa4309d7ad557cd). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "384a4276-2a65-49c5-9601-503669499370",
+                "createdAt": "2025-07-11T23:59:02.644000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "52d6e099-7ab2-4620-9d62-16813beb87c0",
+                "createdAt": "2025-07-11T23:59:02.595000+05:30",
+                "message": "(service pgagi-service, taskSet ecs-svc/4727287784047456882) has begun draining connections on 1 tasks."
+            },
+            {
+                "id": "5012a7ae-4a42-4873-a2f7-142ae71d2824",
+                "createdAt": "2025-07-11T23:59:02.591000+05:30",
+                "message": "(service pgagi-service) deregistered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "45d84827-e2aa-4f38-be07-23e731b206f9",
+                "createdAt": "2025-07-11T23:58:51.405000+05:30",
+                "message": "(service pgagi-service) has stopped 1 running tasks: (task 21a523b638644fda91bbda983e4922d0)."
+            },
+            {
+                "id": "35e57a43-3531-4f49-8fb1-18d9ab90bfcd",
+                "createdAt": "2025-07-11T23:58:51.369000+05:30",
+                "message": "(service pgagi-service) (task 21a523b638644fda91bbda983e4922d0) (port 80) is unhealthy in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720) due to (reason Health checks failed)."
+            },
+            {
+                "id": "01cc0c5b-e623-4c2b-bd54-8f9f539224ef",
+                "createdAt": "2025-07-11T23:58:10.305000+05:30",
+                "message": "(service pgagi-service) registered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "3a68de82-6f4e-40e9-a997-632cf723ec86",
+                "createdAt": "2025-07-11T23:57:48.491000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task 5f3a0495d1364324917cad7afa05eb60). Amazon ECS replaced 1 tasks due to an unhealthy status."
+            },
+            {
+                "id": "b4ca493f-922b-4106-ac15-fe5709777447",
+                "createdAt": "2025-07-11T23:57:06.983000+05:30",
+                "message": "(service pgagi-service) registered 1 targets in (target-group arn:aws:elasticloadbalancing:ap-south-1:011528284123:targetgroup/pgagi-tg/e201b3b2e4348720)"
+            },
+            {
+                "id": "f60b2dec-df52-470a-9afb-9251ffaba380",
+                "createdAt": "2025-07-11T23:56:46.069000+05:30",
+                "message": "(service pgagi-service) has started 1 tasks: (task 21a523b638644fda91bbda983e4922d0)."
+            }
+        ],
+        "createdAt": "2025-07-11T23:56:29.783000+05:30",
+        "placementConstraints": [],
+        "placementStrategy": [],
+        "networkConfiguration": {
+            "awsvpcConfiguration": {
+                "subnets": [
+                    "subnet-0c1fee00c06d3791e",
+                    "subnet-0fd8b6acd3b9194e3"
+                ],
+                "securityGroups": [
+                    "sg-0f3af374b50bc6d67"
+                ],
+                "assignPublicIp": "ENABLED"
+            }
+        },
+        "healthCheckGracePeriodSeconds": 0,
+        "schedulingStrategy": "REPLICA",
+        "deploymentController": {
+            "type": "ECS"
+        },
+        "createdBy": "arn:aws:iam::011528284123:root",
+        "enableECSManagedTags": false,
+        "propagateTags": "NONE",
+        "enableExecuteCommand": false,
+        "availabilityZoneRebalancing": "DISABLED"
+    }
+}
